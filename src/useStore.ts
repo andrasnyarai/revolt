@@ -27,24 +27,6 @@ export function roundToDecimals(num: string | number, places = 2) {
   return +(Math.round(num + `e+${places}`) + `e-${places}`);
 }
 
-const testRates = {
-  eur: {
-    eur: 1,
-    usd: 2,
-    gbp: 0.5,
-  },
-  usd: {
-    eur: 0.5,
-    usd: 1,
-    gbp: 0.25,
-  },
-  gbp: {
-    eur: 2,
-    usd: 4,
-    gbp: 1,
-  },
-};
-
 export const useStore = create<Store>(
   (set: SetState<Store>, get: GetState<Store>) => ({
     loading: true,
@@ -86,8 +68,8 @@ export const useStore = create<Store>(
           },
           usd: {
             eur: roundToDecimals(1 / usd, 6),
-            usd: roundToDecimals(gbp / usd, 6),
-            gbp: 1,
+            usd: 1,
+            gbp: roundToDecimals(gbp / usd, 6),
           },
           gbp: {
             eur: roundToDecimals(1 / gbp, 6),
