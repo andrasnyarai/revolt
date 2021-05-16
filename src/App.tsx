@@ -7,7 +7,7 @@ import { Loading } from './components/Loading';
 import { FloatInput } from './components/FloatInput';
 import { Rail } from './components/Rail';
 import { Screen } from './components/Screen';
-import { GlobalStyle } from './GlobalStyle';
+import { GlobalStyle } from './components/GlobalStyle';
 import { useStore, Account } from './useStore';
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   const [targetAmount, setTargetAmount] = useState('0');
 
   useEffect(() => {
+    loadFx();
     const id = setInterval(loadFx, 5000);
     return () => clearInterval(id);
   }, []);
@@ -47,6 +48,7 @@ function App() {
       <GlobalStyle />
       <Accounts />
       <Rail
+        testId="baseRail"
         selectedCurrency={baseCurrency}
         setSelectedCurrency={setBaseCurrency}
       />
@@ -54,6 +56,7 @@ function App() {
         inputs={
           <>
             <FloatInput
+              testId="baseInput"
               sign="-"
               showUnderLine
               value={baseAmount}
@@ -72,6 +75,7 @@ function App() {
               }}
             />
             <FloatInput
+              testId="targetInput"
               sign="+"
               value={targetAmount}
               onChange={(value) => {
@@ -105,6 +109,7 @@ function App() {
         )}
       </ControlPanel>
       <Rail
+        testId="targetRail"
         selectedCurrency={targetCurrency}
         setSelectedCurrency={setTargetCurrency}
       />

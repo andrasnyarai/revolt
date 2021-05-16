@@ -21,7 +21,12 @@ export const ExchangeButton: React.VFC<Props> = ({ onClick, disabled }) => {
   };
 
   return (
-    <S.Root disabled={disabled} onClick={wrappedOnClick} style={styles}>
+    <S.Root
+      data-testid="exchange-button"
+      disabled={disabled}
+      onClick={wrappedOnClick}
+      style={styles}
+    >
       exchange
     </S.Root>
   );

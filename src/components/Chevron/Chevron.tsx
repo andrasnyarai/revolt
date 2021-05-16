@@ -1,13 +1,19 @@
 import React from 'react';
 
 type Props = {
-  className?: string;
   onClick: () => void;
+  className?: string;
+  testId?: string;
 };
 
-export const Chevron: React.VFC<Props> = ({ className, onClick }) => {
+export const Chevron: React.VFC<Props> = ({
+  className,
+  onClick,
+  testId = '',
+}) => {
   return (
     <svg
+      data-testid={testId}
       className={className}
       onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"

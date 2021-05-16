@@ -1,4 +1,5 @@
 import create, { SetState, GetState } from 'zustand';
+import { roundToDecimals } from './utils';
 
 export type Account = 'eur' | 'usd' | 'gbp';
 
@@ -20,12 +21,6 @@ type Store = {
 };
 
 const fxUrl = 'https://api.exchangerate.host/latest?base=eur';
-
-// https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
-export function roundToDecimals(num: string | number, places = 2) {
-  // @ts-ignore
-  return +(Math.round(num + `e+${places}`) + `e-${places}`);
-}
 
 export const useStore = create<Store>(
   (set: SetState<Store>, get: GetState<Store>) => ({

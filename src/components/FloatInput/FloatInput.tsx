@@ -1,13 +1,14 @@
 import React, { ChangeEvent, KeyboardEvent, useRef } from 'react';
-import { roundToDecimals } from '../../useStore';
+import { roundToDecimals } from '../../utils';
 
 import * as S from './styles';
 
 type Props = {
   sign: '-' | '+';
   value: string;
-  showUnderLine?: boolean;
   onChange: (value: string) => void;
+  showUnderLine?: boolean;
+  testId?: string;
 };
 
 export const FloatInput: React.VFC<Props> = ({
@@ -15,6 +16,7 @@ export const FloatInput: React.VFC<Props> = ({
   value,
   onChange,
   showUnderLine = false,
+  testId = '',
 }) => {
   const ref = useRef<HTMLInputElement>(null);
   const [, decimals = ''] = String(value).split('.');
@@ -29,6 +31,7 @@ export const FloatInput: React.VFC<Props> = ({
     <S.Root>
       {Number(value) > 0 && <div>{sign}</div>}
       <S.Input
+        data-testid={testId}
         ref={ref}
         size={size}
         value={normalizedValue}

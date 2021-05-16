@@ -17,7 +17,7 @@ export const Accounts = () => {
       {Object.entries(accounts).map(([currency, amount]) => {
         const symbol = currencyToSymbol[currency as Account];
         return (
-          <div key={symbol}>
+          <div key={currency}>
             {symbol}: {amount}
           </div>
         );

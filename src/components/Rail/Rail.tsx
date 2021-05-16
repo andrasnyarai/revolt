@@ -4,12 +4,11 @@ import { useDrag } from 'react-use-gesture';
 
 import { useStore, Account } from '../../useStore';
 import { cardWidth } from './constants';
+import { clamp } from '../../utils';
 import * as S from './styles';
 
-const clamp = (num: number, min: number, max: number) =>
-  Math.min(Math.max(num, min), max);
-
 type Props = {
+  testId?: string;
   selectedCurrency: Account;
   setSelectedCurrency: Dispatch<SetStateAction<Account>>;
 };
@@ -17,6 +16,7 @@ type Props = {
 export const Rail: React.VFC<Props> = ({
   selectedCurrency,
   setSelectedCurrency,
+  testId = '',
 }) => {
   const accounts = useStore((state) => state.accounts);
   const currencies = Object.keys(accounts);
@@ -55,8 +55,9 @@ export const Rail: React.VFC<Props> = ({
   };
 
   return (
-    <S.Root>
+    <S.Root data-testid={testId}>
       <S.StyledChevron
+        testId={`${testId}-left`}
         mirrored
         onClick={() => {
           slide(-1);
@@ -82,6 +83,7 @@ export const Rail: React.VFC<Props> = ({
         </S.IndexIndicator>
       </S.Container>
       <S.StyledChevron
+        testId={`${testId}-right`}
         onClick={() => {
           slide(1);
         }}
