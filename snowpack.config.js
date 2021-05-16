@@ -4,6 +4,7 @@ module.exports = {
     public: { url: '/', static: true },
     src: { url: '/dist' },
   },
+  exclude: ['**/node_modules/**/*', '**/mocks/**/*'],
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
