@@ -27,7 +27,7 @@ export const FloatInput: React.VFC<Props> = ({
 
   return (
     <S.Root>
-      {Number(value) > 0 && <S.Sign>{sign}</S.Sign>}
+      {Number(value) > 0 && <div>{sign}</div>}
       <S.Input
         ref={ref}
         size={size}

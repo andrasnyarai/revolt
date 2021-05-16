@@ -25,12 +25,8 @@ export const Input = styled.input<{ size: number }>`
   text-align: right;
   font-size: 20px;
   font-weight: bold;
-  width: ${({ size }) => size + 1.25}ch;
+  width: ${({ size }) => size + 0.5}ch;
   max-width: 150px;
-`;
-
-export const Sign = styled.div`
-  display: inline-block;
 `;
 
 export const Line = styled.div<{ showUnderLine: boolean; size: number }>`
@@ -38,7 +34,7 @@ export const Line = styled.div<{ showUnderLine: boolean; size: number }>`
   height: 1.75px;
   bottom: -2px;
 
-  width: ${({ size }) => (size + 2.25) * 10}px;
+  width: ${({ size }) => size + 2.25}ch;
   ${({ showUnderLine }) =>
     showUnderLine ? 'background-color: var(--main-color);' : ''}
 `;

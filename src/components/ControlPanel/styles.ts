@@ -8,8 +8,7 @@ export const Root = styled.div`
 `;
 
 export const InputsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   grid-gap: 5px;
   justify-self: flex-end;
   transform: translateX(-85px);
