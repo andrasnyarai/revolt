@@ -50,7 +50,7 @@ function App() {
       <GlobalStyle />
       <StatusBar>
         <Accounts />
-        <Rate />
+        <Rate baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
       </StatusBar>
       <Rail
         testId="baseRail"
