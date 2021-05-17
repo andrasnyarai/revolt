@@ -1,5 +1,3 @@
 import styled from 'styled-components';
 
-export const Root = styled.div`
-  padding-left: 30px;
-`;
+export const Root = styled.div``;

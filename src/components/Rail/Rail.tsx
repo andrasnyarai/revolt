@@ -2,15 +2,15 @@ import React, { Dispatch, SetStateAction, useRef } from 'react';
 import { useSprings } from '@react-spring/core';
 import { useDrag } from 'react-use-gesture';
 
-import { useStore, Account } from '../../useStore';
+import { useStore, Currency } from '../../useStore';
 import { cardWidth } from './constants';
-import { clamp } from '../../utils';
+import { clamp, getKeys } from '../../utils';
 import * as S from './styles';
 
 type Props = {
   testId?: string;
-  selectedCurrency: Account;
-  setSelectedCurrency: Dispatch<SetStateAction<Account>>;
+  selectedCurrency: Currency;
+  setSelectedCurrency: Dispatch<SetStateAction<Currency>>;
 };
 
 export const Rail: React.VFC<Props> = ({
@@ -19,7 +19,7 @@ export const Rail: React.VFC<Props> = ({
   testId = '',
 }) => {
   const accounts = useStore((state) => state.accounts);
-  const currencies = Object.keys(accounts);
+  const currencies = getKeys(accounts);
 
   const index = useRef(currencies.findIndex((c) => c === selectedCurrency));
 
@@ -35,7 +35,7 @@ export const Rail: React.VFC<Props> = ({
           0,
           currencies.length - 1,
         );
-        setSelectedCurrency(currencies[index.current] as Account);
+        setSelectedCurrency(currencies[index.current]);
         cancel();
       }
       api((i) => {
@@ -51,7 +51,7 @@ export const Rail: React.VFC<Props> = ({
       const x = (i - index.current) * cardWidth;
       return { x };
     });
-    setSelectedCurrency(currencies[index.current] as Account);
+    setSelectedCurrency(currencies[index.current]);
   };
 
   return (
@@ -71,7 +71,7 @@ export const Rail: React.VFC<Props> = ({
             return (
               <S.Card style={styles} key={i}>
                 <S.Title>{currency.toUpperCase()}</S.Title>
-                <S.StyledFlag currency={currency as Account} />
+                <S.StyledFlag currency={currency} />
               </S.Card>
             );
           })}

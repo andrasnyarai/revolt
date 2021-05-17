@@ -1,20 +1,20 @@
 import create, { SetState, GetState } from 'zustand';
 import { roundToDecimals } from './utils';
 
-export type Account = 'eur' | 'usd' | 'gbp';
+export type Currency = 'eur' | 'usd' | 'gbp';
 
 type Store = {
   accounts: {
-    [A in Account]: number;
+    [C in Currency]: number;
   };
   rates: {
-    [A in Account]: { [A in Account]: number };
+    [C in Currency]: { [C in Currency]: number };
   };
   loading: boolean;
   loadFx: () => Promise<void>;
   exchange: (
-    base: Account,
-    to: Account,
+    base: Currency,
+    to: Currency,
     baseAmount: string,
     targetAmount: string,
   ) => void;

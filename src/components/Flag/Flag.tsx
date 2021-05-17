@@ -3,11 +3,11 @@ import React from 'react';
 import { Eu } from './Eu';
 import { Us } from './Us';
 import { Gb } from './Gb';
-import type { Account } from '../../useStore';
+import type { Currency } from '../../useStore';
 
 type Props = {
   className?: string;
-  currency: Account;
+  currency: Currency;
 };
 
 const currencyToFlag = {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   screen,
   render,
@@ -11,7 +11,7 @@ import { useStore } from './useStore';
 
 const initialStoreState = useStore.getState();
 
-const renderApp = async (): Promise<void> => {
+const renderApp = async () => {
   render(<App />);
   await waitForElementToBeRemoved(await screen.findByText('loading.'));
 };

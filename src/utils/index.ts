@@ -5,3 +5,11 @@ export const clamp = (num: number, min: number, max: number) =>
 export const roundToDecimals = (num: number, places = 2) => {
   return +(Math.round(Number(num + `e+${places}`)) + `e-${places}`);
 };
+
+export const getKeys = Object.keys as <T extends object>(obj: T) => (keyof T)[];
+
+export const getEntries = Object.entries as <T extends object>(
+  obj: T,
+) => {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];

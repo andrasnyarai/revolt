@@ -1,5 +1,6 @@
 import React from 'react';
-import { useStore, Account } from '../../useStore';
+import { getEntries } from 'src/utils';
+import { useStore, Currency } from '../../useStore';
 
 import * as S from './styles';
 
@@ -14,8 +15,8 @@ export const Accounts = () => {
 
   return (
     <S.Root>
-      {Object.entries(accounts).map(([currency, amount]) => {
-        const symbol = currencyToSymbol[currency as Account];
+      {getEntries(accounts).map(([currency, amount]) => {
+        const symbol = currencyToSymbol[currency];
         return (
           <div key={currency}>
             {symbol}: {amount}

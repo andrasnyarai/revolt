@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { useStore, Currency } from './useStore';
+import { GlobalStyle } from './components/GlobalStyle';
 import { Accounts } from './components/Accounts';
 import { ControlPanel } from './components/ControlPanel';
 import { ExchangeButton } from './components/ExchangeButton';
@@ -7,16 +9,16 @@ import { Loading } from './components/Loading';
 import { FloatInput } from './components/FloatInput';
 import { Rail } from './components/Rail';
 import { Screen } from './components/Screen';
-import { GlobalStyle } from './components/GlobalStyle';
-import { useStore, Account } from './useStore';
+import { Rate } from './components/Rate';
+import { StatusBar } from './components/StatusBar';
 
 function App() {
   const { accounts, rates, exchange, loadFx, loading } = useStore(
     (state) => state,
   );
 
-  const [baseCurrency, setBaseCurrency] = useState<Account>('eur');
-  const [targetCurrency, setTargetCurrency] = useState<Account>('usd');
+  const [baseCurrency, setBaseCurrency] = useState<Currency>('eur');
+  const [targetCurrency, setTargetCurrency] = useState<Currency>('usd');
 
   const [baseAmount, setBaseAmount] = useState('0');
   const [targetAmount, setTargetAmount] = useState('0');
@@ -46,7 +48,10 @@ function App() {
   return (
     <Screen>
       <GlobalStyle />
-      <Accounts />
+      <StatusBar>
+        <Accounts />
+        <Rate />
+      </StatusBar>
       <Rail
         testId="baseRail"
         selectedCurrency={baseCurrency}
