@@ -1,6 +1,6 @@
 import React from 'react';
-import { getEntries } from 'src/utils';
-import { useStore, Currency } from '../../useStore';
+import { getEntries } from '../../utils';
+import { useStore } from '../../useStore';
 
 const currencyToSymbol = {
   eur: '€',
