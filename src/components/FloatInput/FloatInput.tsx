@@ -22,7 +22,7 @@ export const FloatInput: React.VFC<Props> = ({
   const [, decimals = ''] = String(value).split('.');
 
   const normalizedValue =
-    decimals.length > 2 ? String(roundToDecimals(value)) : value;
+    decimals.length > 2 ? String(roundToDecimals(Number(value))) : value;
 
   const isFloat = normalizedValue.includes('.');
   const size = normalizedValue.replace('.', '').length + (isFloat ? 0.5 : 0);

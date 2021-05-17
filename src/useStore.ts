@@ -81,9 +81,11 @@ export const useStore = create<Store>(
       set({
         accounts: {
           ...accounts,
-          [base]: roundToDecimals(accounts[base] - roundToDecimals(baseAmount)),
+          [base]: roundToDecimals(
+            accounts[base] - roundToDecimals(Number(baseAmount)),
+          ),
           [target]: roundToDecimals(
-            accounts[target] + roundToDecimals(targetAmount),
+            accounts[target] + roundToDecimals(Number(targetAmount)),
           ),
         },
       });
