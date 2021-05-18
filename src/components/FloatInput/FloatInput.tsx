@@ -1,4 +1,9 @@
-import React, { ChangeEvent, KeyboardEvent, useRef } from 'react';
+import React, {
+  ChangeEvent,
+  ClipboardEvent,
+  KeyboardEvent,
+  useRef,
+} from 'react';
 import { roundToDecimals } from '../../utils';
 
 import * as S from './styles';
@@ -10,6 +15,8 @@ type Props = {
   showUnderLine?: boolean;
   testId?: string;
 };
+
+const invalidCharacters = ['e', 'E', '+', '-'];
 
 export const FloatInput: React.VFC<Props> = ({
   sign,
@@ -39,12 +46,21 @@ export const FloatInput: React.VFC<Props> = ({
         step="0.01"
         min="0"
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (['e', 'E', '+', '-'].includes(e.key)) {
+          if (invalidCharacters.includes(e.key)) {
             e.preventDefault();
           }
         }}
         onWheel={() => {
           ref.current?.blur();
+        }}
+        onPaste={(e: ClipboardEvent<HTMLInputElement>) => {
+          const value = e.clipboardData.getData('Text');
+          const haveInvalidCharacter = invalidCharacters.some((character) =>
+            value.includes(character),
+          );
+          if (haveInvalidCharacter) {
+            e.preventDefault();
+          }
         }}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           const [, decimals] = String(e.target.value).split('.');

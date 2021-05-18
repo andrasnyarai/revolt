@@ -5,6 +5,7 @@ import {
   waitForElementToBeRemoved,
   fireEvent,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import App from './App';
 import { useStore } from './useStore';
@@ -42,7 +43,7 @@ describe('<App>', () => {
     await renderApp();
     const { baseInput } = getInputs();
 
-    fireEvent.change(baseInput, { target: { value: 'abc' } });
+    userEvent.type(baseInput, 'abc');
     expect(baseInput.value).toBe('0');
   });
 
@@ -50,23 +51,31 @@ describe('<App>', () => {
     await renderApp();
     const { baseInput } = getInputs();
 
-    fireEvent.change(baseInput, { target: { value: '1.23e+5' } });
-    expect(baseInput.value).toBe('0');
+    userEvent.type(baseInput, '1.23e+5');
+    expect(baseInput.value).toBe('1.23');
+  });
+
+  it('cant type in negative value', async () => {
+    await renderApp();
+    const { baseInput } = getInputs();
+
+    userEvent.type(baseInput, '-1');
+    expect(baseInput.value).toBe('1');
   });
 
   it('cant type in more than two decimals', async () => {
     await renderApp();
     const { baseInput } = getInputs();
 
-    fireEvent.change(baseInput, { target: { value: '1.2345' } });
-    expect(baseInput.value).toBe('0');
+    userEvent.type(baseInput, '1.2345');
+    expect(baseInput.value).toBe('1.23');
   });
 
   it('cant type leading zeroes', async () => {
     await renderApp();
     const { baseInput } = getInputs();
 
-    fireEvent.change(baseInput, { target: { value: '000.1' } });
+    userEvent.type(baseInput, '000.1');
     expect(baseInput.value).toBe('0.1');
   });
 
@@ -74,7 +83,7 @@ describe('<App>', () => {
     await renderApp();
     const { baseInput } = getInputs();
 
-    fireEvent.change(baseInput, { target: { value: '1000' } });
+    userEvent.type(baseInput, '1000');
     expect(baseInput.value).toBe('100');
   });
 
@@ -82,7 +91,7 @@ describe('<App>', () => {
     await renderApp();
     const { baseInput, targetInput } = getInputs();
 
-    fireEvent.change(baseInput, { target: { value: '0.1' } });
+    userEvent.type(baseInput, '0.1');
     expect(baseInput.value).toBe('0.1');
     expect(targetInput.value).toBe('0.2');
   });
@@ -91,7 +100,7 @@ describe('<App>', () => {
     await renderApp();
     const { baseInput, targetInput } = getInputs();
 
-    fireEvent.change(targetInput, { target: { value: '10' } });
+    userEvent.type(targetInput, '10');
     expect(baseInput.value).toBe('5');
     expect(targetInput.value).toBe('10');
   });
@@ -101,8 +110,8 @@ describe('<App>', () => {
     const { baseInput, targetInput } = getInputs();
     const targetCurrencyRightArrow = screen.getByTestId('targetRail-right');
 
-    fireEvent.change(baseInput, { target: { value: '1' } });
-    fireEvent.click(targetCurrencyRightArrow);
+    userEvent.type(baseInput, '1');
+    userEvent.click(targetCurrencyRightArrow);
 
     expect(baseInput.value).toBe('1');
     expect(targetInput.value).toBe('0.5');
@@ -118,9 +127,9 @@ describe('<App>', () => {
     expect(screen.getByText('$: 50')).toBeDefined();
     expect(screen.getByText('£: 30')).toBeDefined();
 
-    fireEvent.change(baseInput, { target: { value: '1' } });
-    fireEvent.click(targetCurrencyLeftArrow);
-    fireEvent.click(exchangeButton);
+    userEvent.type(baseInput, '1');
+    userEvent.click(targetCurrencyLeftArrow);
+    userEvent.click(exchangeButton);
 
     expect(baseInput.value).toBe('1');
     expect(targetInput.value).toBe('1');
@@ -139,8 +148,8 @@ describe('<App>', () => {
     expect(screen.getByText('$: 50')).toBeDefined();
     expect(screen.getByText('£: 30')).toBeDefined();
 
-    fireEvent.change(baseInput, { target: { value: '5' } });
-    fireEvent.click(exchangeButton);
+    userEvent.type(baseInput, '5');
+    userEvent.click(exchangeButton);
 
     expect(baseInput.value).toBe('5');
     expect(targetInput.value).toBe('10');
