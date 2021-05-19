@@ -38,7 +38,7 @@ export const Rail: React.VFC<Props> = ({
         setSelectedCurrency(currencies[index.current]);
         cancel();
       }
-      api((i) => {
+      api.start((i) => {
         const x = (i - index.current) * cardWidth + (active ? mx : 0);
         return { x };
       });
@@ -47,7 +47,7 @@ export const Rail: React.VFC<Props> = ({
 
   const slide = (direction: -1 | 1) => {
     index.current = clamp(index.current + direction, 0, currencies.length - 1);
-    api((i) => {
+    api.start((i) => {
       const x = (i - index.current) * cardWidth;
       return { x };
     });
