@@ -31,7 +31,7 @@ export const App: React.VFC = () => {
   }, []);
 
   useEffect(() => {
-    calculateRatesOn(baseAmount);
+    calculateRatesOnBase(baseAmount);
   }, [baseCurrency, targetCurrency, accounts, loading]);
 
   const wrappedExchange = () => {
@@ -46,7 +46,7 @@ export const App: React.VFC = () => {
     roundToDecimals(Number(baseAmount)) ===
       roundToDecimals(Number(targetAmount));
 
-  const calculateRatesOn = (value: string) => {
+  const calculateRatesOnBase = (value: string) => {
     const availableOnAccount = accounts[baseCurrency];
     const rate = rates[baseCurrency][targetCurrency];
 
@@ -93,7 +93,7 @@ export const App: React.VFC = () => {
               sign="-"
               showUnderLine
               value={baseAmount}
-              onChange={calculateRatesOn}
+              onChange={calculateRatesOnBase}
             />
             <FloatInput
               testId="targetInput"
