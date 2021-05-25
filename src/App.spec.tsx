@@ -3,11 +3,10 @@ import {
   screen,
   render,
   waitForElementToBeRemoved,
-  fireEvent,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import App from './App';
+import { App } from './App';
 import { useStore } from './useStore';
 
 const initialStoreState = useStore.getState();

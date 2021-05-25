@@ -11,8 +11,9 @@ import { Rail } from './components/Rail';
 import { Screen } from './components/Screen';
 import { Rate } from './components/Rate';
 import { StatusBar } from './components/StatusBar';
+import { roundToDecimals } from './utils';
 
-function App() {
+export const App: React.VFC = () => {
   const { accounts, rates, exchange, loadFx, loading } = useStore(
     (state) => state,
   );
@@ -30,19 +31,46 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const rate = rates[baseCurrency][targetCurrency];
-    const availableOnAccount = accounts[baseCurrency];
-    const cappedAmount =
-      Number(baseAmount) > availableOnAccount
-        ? String(availableOnAccount)
-        : baseAmount;
-
-    setBaseAmount(cappedAmount);
-    setTargetAmount(String(Number(cappedAmount) * rate));
+    calculateRatesOn(baseAmount);
   }, [baseCurrency, targetCurrency, accounts, loading]);
 
   const wrappedExchange = () => {
     exchange(baseCurrency, targetCurrency, baseAmount, targetAmount);
+  };
+
+  const exchangeButtonDisabled =
+    baseCurrency === targetCurrency ||
+    Number(baseAmount) === 0 ||
+    // disallow small transactions where there is a small difference
+    // after the second decimal between the two inputs
+    roundToDecimals(Number(baseAmount)) ===
+      roundToDecimals(Number(targetAmount));
+
+  const calculateRatesOn = (value: string) => {
+    const availableOnAccount = accounts[baseCurrency];
+    const rate = rates[baseCurrency][targetCurrency];
+
+    const cappedValue =
+      Number(value) > availableOnAccount ? String(availableOnAccount) : value;
+
+    setBaseAmount(String(cappedValue));
+    setTargetAmount(String(Number(cappedValue) * rate));
+  };
+
+  const calculateRatesOnTarget = (value: string) => {
+    const reverseRate = rates[targetCurrency][baseCurrency];
+
+    const availableOnAccount = accounts[baseCurrency];
+    const amountNeeded = Number(value) * reverseRate;
+
+    if (amountNeeded > availableOnAccount) {
+      const rate = rates[baseCurrency][targetCurrency];
+      setBaseAmount(String(availableOnAccount));
+      setTargetAmount(String(availableOnAccount * rate));
+    } else {
+      setBaseAmount(String(Number(value) * reverseRate));
+      setTargetAmount(value);
+    }
   };
 
   return (
@@ -65,39 +93,13 @@ function App() {
               sign="-"
               showUnderLine
               value={baseAmount}
-              onChange={(value) => {
-                const availableOnAccount = accounts[baseCurrency];
-
-                const cappedValue =
-                  Number(value) > availableOnAccount
-                    ? String(availableOnAccount)
-                    : value;
-
-                const rate = rates[baseCurrency][targetCurrency];
-
-                setBaseAmount(String(cappedValue));
-                setTargetAmount(String(Number(cappedValue) * rate));
-              }}
+              onChange={calculateRatesOn}
             />
             <FloatInput
               testId="targetInput"
               sign="+"
               value={targetAmount}
-              onChange={(value) => {
-                const reverseRate = rates[targetCurrency][baseCurrency];
-
-                const availableOnAccount = accounts[baseCurrency];
-                const amountNeeded = Number(value) * reverseRate;
-
-                if (amountNeeded > availableOnAccount) {
-                  const rate = rates[baseCurrency][targetCurrency];
-                  setBaseAmount(String(availableOnAccount));
-                  setTargetAmount(String(availableOnAccount * rate));
-                } else {
-                  setBaseAmount(String(Number(value) * reverseRate));
-                  setTargetAmount(value);
-                }
-              }}
+              onChange={calculateRatesOnTarget}
             />
           </>
         }
@@ -107,9 +109,7 @@ function App() {
         ) : (
           <ExchangeButton
             onClick={wrappedExchange}
-            disabled={
-              baseCurrency === targetCurrency || Number(baseAmount) === 0
-            }
+            disabled={exchangeButtonDisabled}
           />
         )}
       </ControlPanel>
@@ -120,6 +120,4 @@ function App() {
       />
     </Screen>
   );
-}
-
-export default App;
+};
